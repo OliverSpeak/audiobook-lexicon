@@ -82,6 +82,30 @@ audiobook-lexicon stats
 
 Lexicon entries are welcome. Run `audiobook-lexicon validate` and `pytest` before opening a pull request.
 
+### Commit messages
+
+Commits follow [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+<type>(<scope>)!: <imperative summary>
+```
+
+- Types: `feat`, `fix`, `refactor`, `perf`, `docs`, `test`, `chore`, `build`, `ci`, `style`, `revert`
+- Scope is optional, e.g. `lexicon`, `clean`, `cli`, `skill`
+- Subject in the imperative ("add", not "added"), 72 characters at most, no trailing full stop
+- Blank line between subject and body; wrap the body at 72 characters
+
+### Git hooks
+
+[Lefthook](https://lefthook.dev/) runs a **commit-msg** hook that enforces the rules above. CI repeats the check on
+every pushed commit, so commits made with `--no-verify` or on GitHub are caught too.
+
+Install hooks after cloning ([installation options](https://lefthook.dev/installation/)):
+
+```
+lefthook install
+```
+
 ## License
 
 MIT

@@ -1,0 +1,8 @@
+# Git hooks via Lefthook. Install once per clone:
+#   see https://lefthook.dev/installation/ (e.g. `go install`, npm, brew, or a release binary)
+#   lefthook install
+
+commit-msg:
+    jobs:
+        - name: conventional-commit
+          run: bash .lefthook/commit-msg/conventional.sh {1}
