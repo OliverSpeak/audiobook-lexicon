@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "audiobook-lexicon"
+version = "0.1.0"
+description = "A pronunciation lexicon for text-to-speech, and an EPUB cleaner that applies it"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+dependencies = ["lxml>=4.9"]
+
+[project.optional-dependencies]
+spell = ["pyenchant>=3.2"]
+test = ["pytest>=7"]
+
+[project.scripts]
+audiobook-lexicon = "audiobook_lexicon.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
