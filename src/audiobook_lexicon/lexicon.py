@@ -147,6 +147,8 @@ class Lexicon:
                 problems.append((where, 'respelling is empty; use "=" for words read correctly as written'))
             if entry.status == 'as-is' and entry.respelling != AS_IS:
                 problems.append((where, 'as-is entries use "=" as the respelling'))
+            if any('"' in v for v in astuple(entry)):
+                problems.append((where, 'use single quotes, not double quotes (GitHub reads " as CSV quoting)'))
             if entry.respelling and entry.respelling != AS_IS and not RESPELLING_RX.match(entry.respelling):
                 problems.append((where, 'respelling may only use lowercase letters, hyphens, spaces and apostrophes'))
         return problems
@@ -174,11 +176,12 @@ class Lexicon:
             rows = sorted((e for e in self.entries.values() if shard_of(e.word) == shard),
                           key=lambda e: (e.word.casefold(), e.word))
             # Written as plain tab-separated lines, matching how load() reads them (no quoting or
-            # escaping), so text such as quotes survives a load/save round trip unchanged.
+            # escaping). Double quotes become single quotes: GitHub and spreadsheet tools read a
+            # " inside a field as broken CSV quoting.
             with (self.dir / shard).open('w', encoding='utf-8', newline='') as f:
                 f.write('\t'.join(FIELDS) + '\n')
                 for e in rows:
-                    f.write('\t'.join(re.sub(r'\s', ' ', str(v)) for v in astuple(e)) + '\n')
+                    f.write('\t'.join(re.sub(r'\s', ' ', str(v)).replace('"', "'") for v in astuple(e)) + '\n')
         self._dirty.clear()
 
     # --- applying ------------------------------------------------------------

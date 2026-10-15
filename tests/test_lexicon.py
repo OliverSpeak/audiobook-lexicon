@@ -81,7 +81,8 @@ def test_save_round_trips_quotes_and_backslashes(tmp_path):
         lex = Lexicon(tmp_path)
         lex._dirty.add(shard_of('Alles'))
         lex.save()
-    assert Lexicon(tmp_path).get('Alles').source == 'German "alles" \\ über alles'
+    assert Lexicon(tmp_path).get('Alles').source == "German 'alles' \\ über alles"
+    assert not Lexicon(tmp_path).validate()
 
 
 def test_apostrophe_variants_match(tmp_path):
